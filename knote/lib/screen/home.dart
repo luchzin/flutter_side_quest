@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knote/widgets/editor.dart';
 import 'package:knote/widgets/sidebar.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -21,12 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // Drawer menu
       drawer: AppDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [const Text('You have pushed the button this many times:')],
-        ),
-      ),
+      body: QuillEditorComponent(),
 
       floatingActionButton: FloatingActionButton(
         onPressed: null,
