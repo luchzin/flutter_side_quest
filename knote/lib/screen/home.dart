@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:knote/provider/app_navigation_provider.dart';
+import 'package:knote/screen/setting.dart';
 import 'package:knote/widgets/editor.dart';
 import 'package:knote/widgets/sidebar.dart';
-
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentPage = ref.watch(currentPageProvider);
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-
-      // Drawer menu
-      drawer: AppDrawer(),
-      body: QuillEditorComponent(),
-
+      drawer: const AppDrawer(),
+      body: switch (currentPage) {
+        AppPage.home => QuillEditorComponent(),
+        AppPage.settings => const SettingsPage(),
+      },
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Increment',
