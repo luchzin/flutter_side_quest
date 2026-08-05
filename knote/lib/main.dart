@@ -32,7 +32,7 @@ class MyApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      home: const MyHomePage(title: "Home"),
+      home: const MyHomePage(title: "Editor"),
     );
   }
 }
