@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:knote/provider/file_provider.dart';
+import 'package:knote/util/file.dart';
 
-class Bottombar extends StatelessWidget {
+class Bottombar extends ConsumerWidget {
   const Bottombar({super.key});
 
+  void newFile(BuildContext context, WidgetRef ref) {
+    ref
+        .read(fileManagerProvider.notifier)
+        .createFile(
+          parentId: 'root',
+          name: 'New Note',
+          language: FileLanguage.markdown,
+        );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _BottomBarOption(icon: Icons.add, label: "New Note", onTap: () {}),
+            _BottomBarOption(
+              icon: Icons.add,
+              label: "New Note",
+              onTap: () => newFile(context, ref),
+            ),
             _BottomBarOption(icon: Icons.search, label: "Search", onTap: () {}),
             _BottomBarOption(
               icon: Icons.folder_outlined,
