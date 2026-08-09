@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:knote/util/file.dart';
@@ -19,10 +20,11 @@ class CodeRunnerNotifier extends Notifier<AsyncValue<String?>> {
     required String input,
   }) async {
     state = const AsyncLoading();
-
-    const apiKey = '49dcb797e79a25906ed11464fc5ca0bd';
-
     try {
+      final apiKey = dotenv.env['ONLINE_COMPILER_API_KEY'];
+      if (apiKey == null || apiKey.isEmpty) {
+        throw Exception('ONLINE_COMPILER_API_KEY is not configured');
+      }
       final response = await http.post(
         Uri.parse('https://api.onlinecompiler.io/api/run-code-sync/'),
         headers: {'Authorization': apiKey, 'Content-Type': 'application/json'},
