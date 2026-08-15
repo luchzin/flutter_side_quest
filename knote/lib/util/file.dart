@@ -1,6 +1,4 @@
-
 class FileManagerState {
-
   const FileManagerState({
     this.nodes = const [],
     this.selectedId,
@@ -19,33 +17,28 @@ class FileManagerState {
     Set<String>? expandedFolderIds,
     bool? loading,
     String? error,
-  }){
+  }) {
     return FileManagerState(
       nodes: nodes ?? this.nodes,
       selectedId: selectedId ?? this.selectedId,
-      expandedFolderIds:
-          expandedFolderIds ?? this.expandedFolderIds,
+      expandedFolderIds: expandedFolderIds ?? this.expandedFolderIds,
       loading: loading ?? this.loading,
       error: error,
     );
   }
 
   ProjectNode? get selectedNode {
-    for(final node in nodes){
-      if(node.id == selectedId){
+    for (final node in nodes) {
+      if (node.id == selectedId) {
         return node;
       }
     }
     return null;
   }
-
 }
-
-
 
 sealed class ProjectNode {
   const ProjectNode({
-
     required this.id,
 
     required this.name,
@@ -53,9 +46,7 @@ sealed class ProjectNode {
     required this.path,
 
     required this.parentId,
-
   });
-
 
   final String id;
 
@@ -65,21 +56,11 @@ sealed class ProjectNode {
 
   final String? parentId;
 
-
-
-  ProjectNode copyWith({
-    String? name,
-  });
+  ProjectNode copyWith({String? name});
 }
 
-
-
- 
 class ProjectFile extends ProjectNode {
-
-
   const ProjectFile({
-
     required super.id,
 
     required super.name,
@@ -89,22 +70,13 @@ class ProjectFile extends ProjectNode {
     required super.parentId,
 
     required this.language,
-
   });
-
-
 
   final FileLanguage language;
 
-
-
   @override
-  ProjectFile copyWith({
-    String? name,
-  }){
-
+  ProjectFile copyWith({String? name}) {
     return ProjectFile(
-
       id: id,
 
       name: name ?? this.name,
@@ -114,21 +86,12 @@ class ProjectFile extends ProjectNode {
       parentId: parentId,
 
       language: language,
-
     );
   }
-
 }
 
-
-
- 
-
 class ProjectFolder extends ProjectNode {
-
-
   const ProjectFolder({
-
     required super.id,
 
     required super.name,
@@ -136,18 +99,11 @@ class ProjectFolder extends ProjectNode {
     required super.path,
 
     required super.parentId,
-
   });
 
-
-
   @override
-  ProjectFolder copyWith({
-    String? name,
-  }){
-
+  ProjectFolder copyWith({String? name}) {
     return ProjectFolder(
-
       id: id,
 
       name: name ?? this.name,
@@ -155,18 +111,11 @@ class ProjectFolder extends ProjectNode {
       path: path,
 
       parentId: parentId,
-
     );
   }
-
 }
 
-
-
- 
-
 enum FileLanguage {
-
   dart,
 
   cpp,
@@ -189,6 +138,24 @@ enum FileLanguage {
 
   markdown,
 
-  text,
+  text;
 
+  String get compiler {
+    switch (this) {
+      case FileLanguage.javascript:
+        return 'nodejs';
+      case FileLanguage.python:
+        return 'python-3.14';
+      case FileLanguage.dart:
+        return 'dart-main';
+      case FileLanguage.typescript:
+        return 'typescript-5';
+      case FileLanguage.cpp:
+        return 'g++';
+      case FileLanguage.java:
+        return 'java-21';
+      default:
+        return 'unknown';
+    }
+  }
 }

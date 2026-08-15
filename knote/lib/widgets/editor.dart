@@ -27,10 +27,12 @@ class _QuillEditorComponentState extends ConsumerState<QuillEditorComponent> {
   void _runCode(BuildContext context) {
     final controller = ref.read(quillEditorProvider.notifier).controller;
     final text = controller.document.toPlainText();
-    ref.read(codeRunnerProvider.notifier).runCode(
-      file: (FileLanguage.python, text), // Defaulting to Python for now
-      input: '',
-    );
+    ref
+        .read(codeRunnerProvider.notifier)
+        .runCode(
+          file: (FileLanguage.python, text), // Defaulting to Python for now
+          input: '',
+        );
   }
 
   @override
@@ -47,7 +49,10 @@ class _QuillEditorComponentState extends ConsumerState<QuillEditorComponent> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                ),
               ],
             ),
             child: Row(
@@ -64,7 +69,10 @@ class _QuillEditorComponentState extends ConsumerState<QuillEditorComponent> {
                 ),
                 IconButton(
                   tooltip: 'Run Code',
-                  icon: const Icon(Icons.play_arrow_rounded, color: Colors.greenAccent),
+                  icon: const Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.greenAccent,
+                  ),
                   onPressed: () => _runCode(context),
                 ),
               ],
@@ -84,24 +92,31 @@ class _QuillEditorComponentState extends ConsumerState<QuillEditorComponent> {
             ),
           ),
         ),
-        if (codeRunnerState is AsyncLoading)
-          const LinearProgressIndicator(),
+        if (codeRunnerState is AsyncLoading) const LinearProgressIndicator(),
         if (codeRunnerState is AsyncData && codeRunnerState.value != null)
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.black87,
-              border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
+              border: Border(
+                top: BorderSide(color: Theme.of(context).dividerColor),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Output:', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                const Text(
+                  'Output:',
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   codeRunnerState.value!,
-                  style: const TextStyle(color: Colors.white, fontFamily: 'monospace'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'monospace',
+                  ),
                 ),
               ],
             ),
@@ -111,7 +126,10 @@ class _QuillEditorComponentState extends ConsumerState<QuillEditorComponent> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             color: Colors.red.withOpacity(0.1),
-            child: Text('Error: ${codeRunnerState.error}', style: const TextStyle(color: Colors.red)),
+            child: Text(
+              'Error: ${codeRunnerState.error}',
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
       ],
     );

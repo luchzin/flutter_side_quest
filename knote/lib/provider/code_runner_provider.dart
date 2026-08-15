@@ -29,7 +29,7 @@ class CodeRunnerNotifier extends Notifier<AsyncValue<String?>> {
         Uri.parse('https://api.onlinecompiler.io/api/run-code-sync/'),
         headers: {'Authorization': apiKey, 'Content-Type': 'application/json'},
         body: jsonEncode({
-          'compiler': compilerFor(file.$1.toString()),
+          'compiler': compilerFor(file.$1),
           'code': file.$2,
           'input': input,
         }),
@@ -46,24 +46,24 @@ class CodeRunnerNotifier extends Notifier<AsyncValue<String?>> {
   }
 }
 
-String compilerFor(String language) {
-  switch (language.toLowerCase()) {
-    case 'python':
+String compilerFor(FileLanguage language) {
+  switch (language) {
+    case FileLanguage.python:
       return 'python-3.14';
 
-    case 'javascript':
+    case FileLanguage.javascript:
       return 'nodejs';
 
-    case 'java':
+    case FileLanguage.java:
       return 'java';
 
-    case 'c':
+    case FileLanguage.c:
       return 'c';
 
-    case 'cpp':
+    case FileLanguage.cpp:
       return 'cpp';
 
     default:
-      throw UnsupportedError('Unsupported language: $language');
+      throw UnsupportedError('Unsupported language: ${language.name}');
   }
 }
