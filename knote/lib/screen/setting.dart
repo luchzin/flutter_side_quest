@@ -242,7 +242,7 @@ class SettingsPage extends StatelessWidget {
           trailing: Switch(
             value: true,
             onChanged: (value) {
-              // TODO
+            
             },
           ),
         ),
@@ -252,7 +252,7 @@ class SettingsPage extends StatelessWidget {
           title: const Text("Language"),
           subtitle: const Text("English"),
           onTap: () {
-            // TODO: Open language picker
+             
           },
         ),
 

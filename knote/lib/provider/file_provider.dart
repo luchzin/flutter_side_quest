@@ -153,14 +153,54 @@ class FileManagerNotifier extends Notifier<FileManagerState> {
     required String id,
     required String targetFolderId,
   }) async {
+    final updated = state.nodes.map((node) {
+      if (node.id != id) return node;
 
+      String newPath = targetFolderId == 'root' ? node.name : '$targetFolderId/${node.name}';
+      
+      if (node is ProjectFolder) {
+        return node.copyWith(
+          name: node.name,
+        ) as ProjectNode; // The copyWith needs to handle path/parentId but ProjectNode copyWith only has name in the interface.
+        // Wait, the ProjectFolder copyWith only has name? Let's just create a new one.
+      }
+      return node; // We can't update path and parentId via copyWith because it's not exposed!
+    }).toList();
+
+    // Since ProjectNode copyWith only exposes `name`, we should rebuild the object.
+    final rebuilt = state.nodes.map((node) {
+      if (node.id != id) return node;
+      
+      final newPath = targetFolderId == 'root' ? node.name : '$targetFolderId/${node.name}';
+      
+      if (node is ProjectFile) {
+        return ProjectFile(
+          id: node.id,
+          name: node.name,
+          path: newPath,
+          parentId: targetFolderId,
+          language: node.language,
+        );
+      } else if (node is ProjectFolder) {
+        return ProjectFolder(
+          id: node.id,
+          name: node.name,
+          path: newPath,
+          parentId: targetFolderId,
+        );
+      }
+      return node;
+    }).toList();
+
+    state = state.copyWith(
+      nodes: rebuilt,
+    );
   }
-
-
 
   Future<void> refresh() async {
-
+    state = state.copyWith(loading: true);
+    await Future.delayed(const Duration(milliseconds: 500));
+    // In-memory refresh just re-emits current state, but typically this would load from DB/Storage.
+    state = state.copyWith(loading: false);
   }
-
 }
-

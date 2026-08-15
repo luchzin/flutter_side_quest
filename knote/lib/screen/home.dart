@@ -16,16 +16,18 @@ class MyHomePage extends ConsumerWidget {
     final currentPage = ref.watch(currentPageProvider);
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, letterSpacing: 1.2)),
+        elevation: 0,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       drawer: const AppDrawer(),
       body: switch (currentPage) {
-        AppPage.home => QuillEditorComponent(),
+        AppPage.home => const QuillEditorComponent(),
         AppPage.settings => const SettingsPage(),
       },
-      bottomNavigationBar: SafeArea(child: Bottombar()),
+      bottomNavigationBar: const Bottombar(),
     );
   }
 }
