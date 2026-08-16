@@ -67,7 +67,7 @@ class FileManagerNotifier extends Notifier<FileManagerState> {
   }
 
 
-  Future<void> createFile({
+  Future<String> createFile({
     required String parentId,
     required String name,
     required FileLanguage language,
@@ -88,11 +88,13 @@ class FileManagerNotifier extends Notifier<FileManagerState> {
         file,
       ],
     );
+
+    return file.id;
   }
 
 
 
-  Future<void> createFolder({
+  Future<String> createFolder({
     required String parentId,
     required String name,
   }) async {
@@ -111,6 +113,8 @@ class FileManagerNotifier extends Notifier<FileManagerState> {
         folder,
       ],
     );
+
+    return folder.id;
   }
 
 

@@ -239,21 +239,14 @@ class SettingsPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.notifications_outlined),
           title: const Text("Notifications"),
-          trailing: Switch(
-            value: true,
-            onChanged: (value) {
-            
-            },
-          ),
+          trailing: Switch(value: true, onChanged: (value) {}),
         ),
 
         ListTile(
           leading: const Icon(Icons.language_outlined),
           title: const Text("Language"),
           subtitle: const Text("English"),
-          onTap: () {
-             
-          },
+          onTap: () {},
         ),
 
         const Divider(height: 32),
